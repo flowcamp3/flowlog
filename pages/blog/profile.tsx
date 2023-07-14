@@ -1,7 +1,11 @@
+import BlogLayout from "./BlogLayout";
+
 export default function Profile() {
   return (
-    <div>
-      <h3>유저 프로필</h3>
-    </div>
+    <BlogLayout>
+      <div>
+        <h3>유저 프로필</h3>
+      </div>
+    </BlogLayout>
   );
 }
