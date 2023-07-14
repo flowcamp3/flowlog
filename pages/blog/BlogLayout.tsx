@@ -1,4 +1,5 @@
 import BlogTabBar from "../../component/BlogTabBar";
+import UserProfile from "../../component/UserProfile";
 import React, { ReactNode } from "react";
 
 interface LayoutProps {
@@ -7,9 +8,11 @@ interface LayoutProps {
 
 export default function BlogLayout({ children }: LayoutProps) {
   return (
-    <div>
-      <div style={{ display: "flex", fontSize: "20px" }}>
-        <h1>내 블로그</h1>
+    <div className="">
+      <div>
+        <UserProfile />
+      </div>
+      <div>
         <BlogTabBar />
       </div>
       <div>{children}</div>
