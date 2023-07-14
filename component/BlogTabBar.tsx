@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 export default function BlogTabBar() {
   const router = useRouter();
   return (
-    <nav>
+    <nav className={"nav_bar"}>
       <Link href="/blog/posts">
         <div
           className={[
@@ -13,7 +13,7 @@ export default function BlogTabBar() {
             "btn",
           ].join(" ")}
         >
-          포스트 들어갈 칸
+          포스트 구경하기
         </div>
       </Link>
 
@@ -24,11 +24,16 @@ export default function BlogTabBar() {
             "btn",
           ].join(" ")}
         >
-          프로필 들어갈 칸
+          프로필 구경하기
         </div>
       </Link>
 
       <style jsx>{`
+        .nav_bar {
+          display: flex;
+          justify-content: space-between;
+        }
+
         .btn {
           padding: 10px;
         }

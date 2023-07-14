@@ -8,8 +8,10 @@ interface LayoutProps {
 export default function BlogLayout({ children }: LayoutProps) {
   return (
     <div>
-      <h1>내 블로그</h1>
-      <BlogTabBar />
+      <div style={{ display: "flex", fontSize: "20px" }}>
+        <h1>내 블로그</h1>
+        <BlogTabBar />
+      </div>
       <div>{children}</div>
     </div>
   );
