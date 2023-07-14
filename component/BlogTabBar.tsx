@@ -10,7 +10,7 @@ export default function BlogTabBar() {
         <div
           className={[
             router.pathname === "/blog/posts" ? "active" : "",
-            "btn",
+            "btn"
           ].join(" ")}
         >
           포스트 구경하기
@@ -21,7 +21,7 @@ export default function BlogTabBar() {
         <div
           className={[
             router.pathname === "/blog/profile" ? "active" : "",
-            "btn",
+            "btn"
           ].join(" ")}
         >
           프로필 구경하기
