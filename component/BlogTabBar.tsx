@@ -10,28 +10,27 @@ export default function BlogTabBar() {
         <div
           className={[
             router.pathname === "/blog/posts" ? "active" : "",
-            "btn"
+            "btn",
           ].join(" ")}
         >
           포스트 구경하기
         </div>
       </Link>
 
-      <Link href="/blog/profile">
+      <Link href="/blog/guestbook">
         <div
           className={[
-            router.pathname === "/blog/profile" ? "active" : "",
-            "btn"
+            router.pathname === "/blog/guestbook" ? "active" : "",
+            "btn",
           ].join(" ")}
         >
-          프로필 구경하기
+          방명록 구경하기
         </div>
       </Link>
 
       <style jsx>{`
         .nav_bar {
           display: flex;
-          justify-content: space-between;
         }
 
         .btn {

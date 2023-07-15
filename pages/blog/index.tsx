@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import Posts from "./posts";
-import Profile from "./profile";
+import GuestBook from "./guestbook";
 import BlogLayout from "./BlogLayout";
 
 export default function Blog() {
   const router = useRouter();
   let content;
 
-  if (router.pathname === "/blog/profile") {
-    content = <Profile />;
+  if (router.pathname === "/blog/guestbook") {
+    content = <GuestBook />;
   } else if (router.pathname === "/blog/posts") {
     content = <Posts />;
   } else if (router.pathname === "/blog") {
