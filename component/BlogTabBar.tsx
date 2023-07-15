@@ -34,12 +34,14 @@ export default function BlogTabBar() {
         }
 
         .btn {
+          color: var(--dark-pink);
           padding: 10px;
+          border-radius: 15px 15px 0 0;
         }
 
         .active {
-          color: blue;
-          background-color: yellow;
+          color: var(--light-text);
+          background-color: var(--dark-pink);
         }
       `}</style>
     </nav>
