@@ -30,7 +30,33 @@ export default function BlogTabBar() {
 
       <style jsx>{`
         .nav_bar {
+          width: 100vw;
+          @media (min-width: 1080px) {
+            width: 1080px;
+          }
           display: flex;
+
+          background-color: var(--light-pink);
+          background-color: var(--light-text);
+          background-image: linear-gradient(
+              45deg,
+              var(--light-pink) 25%,
+              transparent 25%,
+              transparent 75%,
+              var(--light-pink) 75%,
+              var(--light-pink)
+            ),
+            linear-gradient(
+              45deg,
+              var(--light-pink) 25%,
+              transparent 25%,
+              transparent 75%,
+              var(--light-pink) 75%,
+              var(--light-pink)
+            );
+          background-position: 0 0, 10px 10px;
+          background-size: 20px 20px;
+          border-radius: 15px 15px 0 0;
         }
 
         .btn {

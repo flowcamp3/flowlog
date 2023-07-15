@@ -19,8 +19,7 @@ export default function UserProfile() {
 
       <style jsx>{`
         .container {
-          height: 100vh;
-          width: 30vh;
+          width: 30%;
           border: 1px solid #ccc;
         }
         .contents {
