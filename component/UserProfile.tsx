@@ -4,7 +4,7 @@ export default function UserProfile() {
   return (
     <div className={"container"}>
       <div className="contents">
-        <div style={{ width: "80%" }}>
+        <div style={{ width: "80%", border: "1px solid #ccc" }}>
           <Image
             src="/assets/user_img.png"
             alt="User Image"
@@ -21,6 +21,7 @@ export default function UserProfile() {
         .container {
           height: 100vh;
           width: 30vh;
+          border: 1px solid #ccc;
         }
         .contents {
           padding-top: 100px;
