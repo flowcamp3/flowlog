@@ -1,4 +1,5 @@
 import BlogTabBar from "../../component/BlogTabBar";
+import BlogHeader from "../../component/BlogHeader";
 import UserProfile from "../../component/UserProfile";
 import React, { ReactNode } from "react";
 
@@ -10,6 +11,7 @@ export default function BlogLayout({ children }: LayoutProps) {
   return (
     <div>
       <div>
+        <BlogHeader />
         <BlogTabBar />
       </div>
       <div className={"blog_content"}>
