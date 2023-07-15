@@ -1,3 +1,12 @@
+:root {
+  --light-pink: #ffd0d0;
+  --dark-pink: #ff9eaa;
+  --light-green: #c1ece4;
+  --dark-green: #3aa6b9;
+  --light-text: #fff5ec;
+  --dark-text: #0a2529;
+}
+
 html,
 body {
   color: black;
