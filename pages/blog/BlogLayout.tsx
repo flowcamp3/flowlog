@@ -8,14 +8,20 @@ interface LayoutProps {
 
 export default function BlogLayout({ children }: LayoutProps) {
   return (
-    <div className="">
-      <div>
-        <UserProfile />
-      </div>
+    <div>
       <div>
         <BlogTabBar />
       </div>
-      <div>{children}</div>
+      <div className={"blog_content"}>
+        <UserProfile />
+        {children}
+      </div>
+
+      <style jsx>{`
+        .blog_content {
+          display: flex;
+        }
+      `}</style>
     </div>
   );
 }

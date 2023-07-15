@@ -1,7 +1,7 @@
-import BlogTabBar from "../../component/BlogTabBar";
 import { useRouter } from "next/router";
 import Posts from "./posts";
 import Profile from "./profile";
+import BlogLayout from "./BlogLayout";
 
 export default function Blog() {
   const router = useRouter();
@@ -16,9 +16,8 @@ export default function Blog() {
   }
 
   return (
-    <div>
-      <BlogTabBar />
+    <BlogLayout>
       <div>{content && <div>{content}</div>}</div>
-    </div>
+    </BlogLayout>
   );
 }
