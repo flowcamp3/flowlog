@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../styles/TopNavBar.module.css";
+import css from "styled-jsx/css";
 import FriendModal from "./FriendModal";
 
 export default function TopNavBar() {
@@ -34,7 +34,7 @@ export default function TopNavBar() {
         </Link>
 
         <button onClick={openModal}>
-          <div className={"btn"}>친구 목록</div>
+          <div className={`btn friend_btn`}>친구 목록</div>
         </button>
         <FriendModal isOpen={modalOpen} onClose={closeModal}>
           <h2>이것은 모달입니다</h2>
@@ -55,15 +55,25 @@ export default function TopNavBar() {
 
       <style jsx>{`
         .nav_bar {
+          height: 40px;
+          background-color: var(--light-pink);
           display: flex;
           justify-content: space-between;
+          place-items: center;
         }
-
         .btn {
-          padding: 10px;
           text-decoration: none;
+          padding-left: 10px;
+          padding-right: 10px;
+          text-align: center;
         }
-
+        .friend_btn {
+          font-family: inherit;
+          font-size: inherit;
+          background-color: transparent;
+          border: none;
+          padding: 0;
+        }
         .active {
           text-decoration: none;
           color: blue;
