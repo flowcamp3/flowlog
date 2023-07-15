@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/TopNavBar.module.css";
+import FriendModal from "./FriendModal";
 
 export default function TopNavBar() {
   const router = useRouter();
+  const [modalOpen, setShowModal] = useState(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <nav className={"nav_bar"}>
       <Link href="/">
@@ -23,9 +33,13 @@ export default function TopNavBar() {
           </div>
         </Link>
 
-        <button>
+        <button onClick={openModal}>
           <div className={"btn"}>친구 목록</div>
         </button>
+        <FriendModal isOpen={modalOpen} onClose={closeModal}>
+          <h2>이것은 모달입니다</h2>
+          <p>모달 내용이 들어갑니다</p>
+        </FriendModal>
 
         <Link href="/home">
           <div
