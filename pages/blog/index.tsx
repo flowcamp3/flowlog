@@ -17,7 +17,6 @@ export default function Blog() {
 
   return (
     <div>
-      <h1>내 블로그</h1>
       <BlogTabBar />
       <div>{content && <div>{content}</div>}</div>
     </div>
