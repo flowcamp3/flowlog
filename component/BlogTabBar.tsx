@@ -40,19 +40,19 @@ export default function BlogTabBar() {
           background-color: var(--light-text);
           background-image: linear-gradient(
               45deg,
-              var(--light-pink) 25%,
+              var(--light-green) 25%,
               transparent 25%,
               transparent 75%,
-              var(--light-pink) 75%,
-              var(--light-pink)
+              var(--light-green) 75%,
+              var(--light-green)
             ),
             linear-gradient(
               45deg,
-              var(--light-pink) 25%,
+              var(--light-green) 25%,
               transparent 25%,
               transparent 75%,
-              var(--light-pink) 75%,
-              var(--light-pink)
+              var(--light-green) 75%,
+              var(--light-green)
             );
           background-position: 0 0, 10px 10px;
           background-size: 20px 20px;
@@ -60,14 +60,14 @@ export default function BlogTabBar() {
         }
 
         .btn {
-          color: var(--dark-pink);
+          color: var(--dark-green);
           padding: 10px;
           border-radius: 15px 15px 0 0;
         }
 
         .active {
           color: var(--light-text);
-          background-color: var(--dark-pink);
+          background-color: var(--dark-green);
         }
       `}</style>
     </nav>
