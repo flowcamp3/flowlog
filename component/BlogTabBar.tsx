@@ -15,7 +15,7 @@ export default function BlogTabBar() {
             "btn",
           ].join(" ")}
         >
-          포스트 구경하기
+          POST
         </div>
       </Link>
 
@@ -26,7 +26,7 @@ export default function BlogTabBar() {
             "btn",
           ].join(" ")}
         >
-          방명록 구경하기
+          GUESTBOOK
         </div>
       </Link>
 
@@ -62,6 +62,8 @@ export default function BlogTabBar() {
         }
 
         .btn {
+          width: 80px;
+          text-align: center;
           color: var(--dark-green);
           padding: 10px;
           border-radius: 15px 15px 0 0;
