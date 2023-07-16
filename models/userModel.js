@@ -1,5 +1,5 @@
-// models/User.js
-import mongoose from 'mongoose';
+// models/userModel.js
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -7,8 +7,17 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  blogId: String,
-  blogName: String,
+  blogId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  blogName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  postIds: [String],
 });
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);
