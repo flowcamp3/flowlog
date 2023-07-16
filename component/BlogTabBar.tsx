@@ -4,12 +4,14 @@ import { useRouter } from "next/router";
 
 export default function BlogTabBar() {
   const router = useRouter();
+  const blogId = router.query.blogId as string;
+
   return (
     <nav className={"nav_bar"}>
-      <Link href="/blog/posts">
+      <Link href={`/${blogId}/posts`}>
         <div
           className={[
-            router.pathname === "/blog/posts" ? "active" : "",
+            router.pathname === `/${blogId}/posts` ? "active" : "",
             "btn",
           ].join(" ")}
         >
@@ -17,10 +19,10 @@ export default function BlogTabBar() {
         </div>
       </Link>
 
-      <Link href="/blog/guestbook">
+      <Link href={`/${blogId}/guestbook`}>
         <div
           className={[
-            router.pathname === "/blog/guestbook" ? "active" : "",
+            router.pathname === `/${blogId}/guestbook` ? "active" : "",
             "btn",
           ].join(" ")}
         >
