@@ -15,5 +15,5 @@ const GuestbookSchema = new mongoose.Schema({
   content: String,
 });
 
-export default mongoose.models.Post ||
+export default mongoose.models.Guestbook ||
   mongoose.model("Guestbook", GuestbookSchema);
