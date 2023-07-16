@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Posts from "./posts";
+import Posts from "./posts/index";
 import GuestBook from "./guestbook";
 import BlogLayout from "./BlogLayout";
 
