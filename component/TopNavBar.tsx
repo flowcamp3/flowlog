@@ -3,10 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import css from "styled-jsx/css";
 import FriendModal from "./FriendModal";
+import { useSession } from "next-auth/react";
 
 export default function TopNavBar() {
   const router = useRouter();
   const [modalOpen, setShowModal] = useState(false);
+  const { data: session } = useSession();
   const openModal = () => {
     setShowModal(true);
   };
@@ -23,16 +25,18 @@ export default function TopNavBar() {
         </Link>
 
         <div style={{ display: "flex" }}>
-          <Link href="/blog">
-            <div
-              className={[
-                router.pathname === "/blog" ? "active" : "",
-                "btn",
-              ].join(" ")}
-            >
-              내 블로그
-            </div>
-          </Link>
+          {session && (
+            <Link href={`/${session.user.email}`}>
+              <div
+                className={[
+                  router.pathname === `/${session.user.email}` ? "active" : "",
+                  "btn",
+                ].join(" ")}
+              >
+                내 블로그
+              </div>
+            </Link>
+          )}
 
           <button onClick={openModal}>
             <div className={`btn friend_btn`}>친구 목록</div>

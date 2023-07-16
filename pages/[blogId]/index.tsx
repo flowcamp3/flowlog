@@ -5,18 +5,22 @@ import BlogLayout from "./BlogLayout";
 
 export default function Blog() {
   const router = useRouter();
+  const { blogId } = router.query;
   let content;
 
-  if (router.pathname === "/blog/guestbook") {
+  if (router.pathname === "/[blogId]/guestbook") {
     content = <GuestBook />;
-  } else if (router.pathname === "/blog/posts") {
+  } else if (router.pathname === "/[blogId]/posts") {
     content = <Posts />;
-  } else if (router.pathname === "/blog") {
+  } else if (router.pathname === "/[blogId]") {
     content = null;
   }
 
   return (
     <BlogLayout>
+      <div>
+        {blogId}
+      </div>
       <div>{content && <div>{content}</div>}</div>
     </BlogLayout>
   );
