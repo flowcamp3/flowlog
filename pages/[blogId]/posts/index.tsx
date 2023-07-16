@@ -1,11 +1,14 @@
-import BlogLayout from "./BlogLayout";
-import PostView from "../../component/PostView";
+import { useRouter } from 'next/router'
+import BlogLayout from "../BlogLayout";
+import PostView from "../../../component/PostView";
 
 export default function Posts() {
+  const router = useRouter()
+
   return (
     <BlogLayout>
       <div className={"container"}>
-        <h3>포스트 표시</h3>
+        <h3>포스트 표시ss</h3>
         <PostView />
 
         <style jsx>{`
