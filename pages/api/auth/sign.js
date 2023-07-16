@@ -10,13 +10,9 @@ import User from "../../../models/userModel";
 export default async function handler(req, res) {
   console.log(req.body);
   console.log(req.body);
-  console.log(req.body);
-  console.log(req.body);
-
-
   if (req.method === "GET") {
-    // GET 요청이 오면 DB와 연결하고, query를 통해 받은 email이 user라는 collection에 있는지 찾고, 
-    // 있으면 I know you를 출력하고 기본페이지로 리다이렉트한다. 
+    // GET 요청이 오면 DB와 연결하고, query를 통해 받은 email이 user라는 collection에 있는지 찾고,
+    // 있으면 I know you를 출력하고 기본페이지로 리다이렉트한다.
     // 없으면 User not found를 출력하고 /signup으로 리다이렉트한다.
     try {
       const email = req.query.email;
@@ -25,10 +21,10 @@ export default async function handler(req, res) {
       console.log("FIND DOCUMENT");
 
       if (user) {
-        console.log("I know you");
+        console.log("You don't need to signup");
         res.status(200).json({ redirect: "/" });
       } else {
-        console.log("User not found");
+        console.log("You need to signup");
         res.status(200).json({ redirect: "/signup" });
       }
     } catch (error) {
