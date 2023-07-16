@@ -8,6 +8,11 @@ a {
   color: black;
 }
 
+/* button font 변경 */
+button {
+    font-family: stardust, DungG;
+}
+
 @font-face {
   font-family: "startdust";
   font-weight: 400;
