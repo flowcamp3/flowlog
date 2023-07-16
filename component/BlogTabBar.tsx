@@ -11,7 +11,7 @@ export default function BlogTabBar() {
       <Link href={`/${blogId}/posts`}>
         <div
           className={[
-            router.pathname === `/${blogId}/posts` ? "active" : "",
+            router.asPath === `/${blogId}/posts` ? "active" : "",
             "btn",
           ].join(" ")}
         >
@@ -22,7 +22,7 @@ export default function BlogTabBar() {
       <Link href={`/${blogId}/guestbook`}>
         <div
           className={[
-            router.pathname === `/${blogId}/guestbook` ? "active" : "",
+            router.asPath === `/${blogId}/guestbook` ? "active" : "",
             "btn",
           ].join(" ")}
         >
