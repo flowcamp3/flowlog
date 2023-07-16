@@ -1,12 +1,10 @@
 import BlogLayout from "./BlogLayout";
-import PostView from "../../component/PostView";
 
-export default function Posts() {
+export default function GuestBook() {
   return (
     <BlogLayout>
       <div className={"container"}>
         <h3>포스트 표시</h3>
-        <PostView />
 
         <style jsx>{`
           .container{

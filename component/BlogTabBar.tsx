@@ -10,37 +10,64 @@ export default function BlogTabBar() {
         <div
           className={[
             router.pathname === "/blog/posts" ? "active" : "",
-            "btn"
+            "btn",
           ].join(" ")}
         >
           포스트 구경하기
         </div>
       </Link>
 
-      <Link href="/blog/profile">
+      <Link href="/blog/guestbook">
         <div
           className={[
-            router.pathname === "/blog/profile" ? "active" : "",
-            "btn"
+            router.pathname === "/blog/guestbook" ? "active" : "",
+            "btn",
           ].join(" ")}
         >
-          프로필 구경하기
+          방명록 구경하기
         </div>
       </Link>
 
       <style jsx>{`
         .nav_bar {
+          width: 100vw;
+          @media (min-width: 1080px) {
+            width: 1080px;
+          }
           display: flex;
-          justify-content: space-between;
+
+          background-color: var(--light-pink);
+          background-color: var(--light-text);
+          background-image: linear-gradient(
+              45deg,
+              var(--light-green) 25%,
+              transparent 25%,
+              transparent 75%,
+              var(--light-green) 75%,
+              var(--light-green)
+            ),
+            linear-gradient(
+              45deg,
+              var(--light-green) 25%,
+              transparent 25%,
+              transparent 75%,
+              var(--light-green) 75%,
+              var(--light-green)
+            );
+          background-position: 0 0, 10px 10px;
+          background-size: 20px 20px;
+          border-radius: 15px 15px 0 0;
         }
 
         .btn {
+          color: var(--dark-green);
           padding: 10px;
+          border-radius: 15px 15px 0 0;
         }
 
         .active {
-          color: blue;
-          background-color: yellow;
+          color: var(--light-text);
+          background-color: var(--dark-green);
         }
       `}</style>
     </nav>

@@ -7,7 +7,7 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const FriendModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const PostModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,4 +50,4 @@ const FriendModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-export default FriendModal;
+export default PostModal;
