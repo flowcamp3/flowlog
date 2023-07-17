@@ -62,11 +62,17 @@ export default function BlogTabBar() {
         }
 
         .btn {
+          height: 20px;
           width: 80px;
           text-align: center;
           color: var(--dark-green);
           padding: 10px;
           border-radius: 15px 15px 0 0;
+          font-size: 18px;
+        }
+        .btn:hover {
+          background-color: var(--dark-green);
+          color: var(--light-text);
         }
 
         .active {
