@@ -141,6 +141,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
 
         <style jsx>{`
           .container {
+            z-index: -1;
             width: 70%;
             display: flex;
           }
