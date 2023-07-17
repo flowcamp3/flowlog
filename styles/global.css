@@ -19,7 +19,9 @@ a {
 
 /* button font 변경 */
 button {
-    font-family: stardust, DungG;
+  font-family: stardust, DungG;
+  border: none;
+  background-color: transparent;
 }
 
 @font-face {
