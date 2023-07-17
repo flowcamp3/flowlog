@@ -211,6 +211,15 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             opacity: 0.5;
             cursor: not-allowed;
           }
+          .prev-button:hover,
+          .next-button:hover {
+            color: white;
+            background-color: whilte;
+            text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
+              1px -1px 10px rgba(255, 255, 255, 0.5),
+              -1px 1px 10px rgba(255, 255, 255, 0.5),
+              1px 1px 10px rgba(255, 255, 255, 0.5);
+          }
         `}</style>
       </div>
     </BlogLayout>
