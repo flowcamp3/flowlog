@@ -1,6 +1,28 @@
+import React, { useState } from "react";
 import Image from "next/image";
+import EditProfileModal from "./EditProfileModal";
+import { useSession } from "next-auth/react";
 
-export default function UserProfile() {
+interface UserProfileProps {}
+
+const UserProfile: React.FC<UserProfileProps> = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState("UserInfo");
+
+  const { data: session } = useSession();
+  const username = session?.user.email;
+  const handleEditButtonClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleUserInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInfo(event.target.value);
+  };
+
+  const handleSaveButtonClick = () => {
+    setIsModalOpen(false); // Close the modal
+  };
+
   return (
     <div className={"container"}>
       <div className="contents">
@@ -14,10 +36,37 @@ export default function UserProfile() {
           />
         </div>
         <div className={"lower_container"}>
-          <div className={"user_nickname"}>UserNickname</div>
-          <div className={"user_info"}>UserInfo</div>
+          <button className={"edit_button"} onClick={handleEditButtonClick}>
+            edit
+          </button>
+          <div className={"user_nickname"}>{username}</div>
+          <div className={"user_info"}>{userInfo}</div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <EditProfileModal isOpen={isModalOpen} onClose={handleEditButtonClick}>
+          <div className="modal_content">
+            <div className="image_section">
+              <Image
+                src="/assets/user_img.png"
+                alt="User Image"
+                width={200}
+                height={200}
+              />
+              <button className="add_image_button">Add Image</button>
+            </div>
+            <div className="info_section">
+              <input
+                type="text"
+                value={userInfo}
+                onChange={handleUserInfoChange}
+              />
+            </div>
+            <button onClick={handleSaveButtonClick}>Save</button>
+          </div>
+        </EditProfileModal>
+      )}
 
       <style jsx>{`
         .container {
@@ -31,8 +80,6 @@ export default function UserProfile() {
             transparent 100%
           );
           background-size: 20px 20px;
-          
-          );
         }
         .user_img {
           width: 60%;
@@ -47,7 +94,7 @@ export default function UserProfile() {
           place-items: center;
         }
 
-        .lower_container{
+        .lower_container {
           margin-top: 40px;
           width: 70%;
           height: 400px;
@@ -57,7 +104,8 @@ export default function UserProfile() {
           display: flex;
           flex-direction: column;
           place-items: center;
-
+        }
+        .edit_button {
         }
         .user_nickname {
           margin-top: 15px;
@@ -73,7 +121,36 @@ export default function UserProfile() {
           padding-top: 20px;
           color: var(--dark-green);
         }
+
+        /* EditProfileModal styles */
+        .modal_content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+        .image_section {
+          margin-bottom: 20px;
+        }
+        .add_image_button {
+          font-size: 16px;
+          padding: 5px 10px;
+          background-color: var(--light-text);
+          border: none;
+          border-radius: 4px;
+          color: var(--dark-text);
+          cursor: pointer;
+          margin-top: 10px;
+        }
+        .info_section input {
+          width: 200px;
+          height: 30px;
+          padding: 5px;
+        }
       `}</style>
     </div>
   );
-}
+};
+
+export default UserProfile;
