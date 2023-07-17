@@ -86,6 +86,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
                   placeholder={"Enter your message..."}
                   value={content}
                   onChange={handleInputChange}
+                  maxLength={50}
                 ></textarea>
               </div>
             ) : (
