@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import BlogLayout from "./BlogLayout";
+import { useSession } from "next-auth/react";
 
 const WritePost = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const { blogId } = router.query;
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log("gg");
+    if (!session) {
+      alert("Please sign in first");
+      return;
+    }
+    const res = await fetch("/api/posts/write", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ blogId: session.user.email, title, content, postId: 5 }),
+    });
+    if (res.status === 200) {
+      window.location.href = "http://localhost:3000/" + blogId + "/posts";
+    } else {
+      alert("작성에 실패했습니다");
+    }
   };
 
   return (
