@@ -10,6 +10,8 @@ const GuestBook: React.FC<GuestBookProps> = () => {
   const [content, setContent] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [contents, setContents] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -18,13 +20,11 @@ const GuestBook: React.FC<GuestBookProps> = () => {
   const handleInputSubmit = async () => {
     if (content.trim() !== "") {
       try {
-        console.log("지금 보낼거야");
         await axios.post("/api/guestbook", {
           blogId: "yourBlogId", // Replace with the actual blogId
           visitorId: writerId,
           content: content,
         });
-        console.log("지금 보냈엉");
         setContents([...contents, content]);
         setContent("");
         setShowInput(false);
@@ -62,17 +62,55 @@ const GuestBook: React.FC<GuestBookProps> = () => {
     }
   };
 
+  // 이전 페이지로 이동
+  const goToPrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  // 다음 페이지로 이동
+  const goToNextPage = () => {
+    const maxPage = Math.ceil(contents.length / itemsPerPage);
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, maxPage));
+  };
+
+  // 현재 페이지에 해당하는 GuestbookBalloon 리스트 생성
+  const currentItems = contents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <BlogLayout>
       <div className={"container"}>
         <div className={"guestbook_container"}>
-          <h2 className={"title"}>GUESTBOOK</h2>
-          {contents.map((item, index) => (
+          <div className={"upper_container"}>
+            <button
+              className="prev-button"
+              onClick={goToPrevPage}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            <h2 className={"title"}>GUESTBOOK</h2>
+
+            <button
+              className="next-button"
+              onClick={goToNextPage}
+              disabled={
+                currentPage === Math.ceil(contents.length / itemsPerPage)
+              }
+            >
+              &gt;
+            </button>
+          </div>
+          {currentItems.map((item, index) => (
             <GuestbookBalloon
               key={index}
               writerId={writerId}
               content={item}
-              onDelete={() => handleDelete(index)}
+              onDelete={() =>
+                handleDelete(index + (currentPage - 1) * itemsPerPage)
+              }
             />
           ))}
           <div className={"input_container"}>
@@ -105,6 +143,14 @@ const GuestBook: React.FC<GuestBookProps> = () => {
           .title {
             color: var(--light-text);
             text-align: center;
+            font-size: 55px;
+            margin-left: 15px;
+            margin-right: 15px;
+          }
+          .upper_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
           .guestbook_container {
             position: relative;
@@ -144,6 +190,22 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             width: 300px;
             height: 80px;
             padding: 5px;
+          }
+          .prev-button,
+          .next-button {
+            margin: 0 5px;
+            font-size: 40px;
+            padding: 5px 10px;
+            color: var(--light-text);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: transparent;
+          }
+          .prev-button:disabled,
+          .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
           }
         `}</style>
       </div>
