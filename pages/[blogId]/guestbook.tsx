@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BlogLayout from "./BlogLayout";
 import GuestbookBalloon from "../../component/GuestbookBalloon";
+import axios from "axios";
 
 interface GuestBookProps {}
 
@@ -14,11 +15,22 @@ const GuestBook: React.FC<GuestBookProps> = () => {
     setContent(event.target.value);
   };
 
-  const handleInputSubmit = () => {
+  const handleInputSubmit = async () => {
     if (content.trim() !== "") {
-      setContents([...contents, content]);
-      setContent("");
-      setShowInput(false);
+      try {
+        console.log("지금 보낼거야");
+        await axios.post("/api/guestbook", {
+          blogId: "yourBlogId", // Replace with the actual blogId
+          visitorId: writerId,
+          content: content,
+        });
+        console.log("지금 보냈엉");
+        setContents([...contents, content]);
+        setContent("");
+        setShowInput(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -32,6 +44,22 @@ const GuestBook: React.FC<GuestBookProps> = () => {
       updatedContents.splice(index, 1);
       return updatedContents;
     });
+  };
+
+  useEffect(() => {
+    fetchGuestbookData();
+  }, []);
+
+  const fetchGuestbookData = async () => {
+    try {
+      const response = await axios.get("/api/guestbook", {
+        params: { blogId: "yourBlogId" }, // Replace with the actual blogId
+      });
+      const data = response.data;
+      setContents(data.map((item: any) => item.content));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
-import connectMongo from "../../../utils/connectMongo";
+import connectMongo from "../../utils/connectMongo";
 import { NextApiRequest, NextApiResponse } from "next";
-import Guestbook from "../../../models/guestbookModel";
+import Guestbook from "../../models/guestbookModel";
 
 /**
  * @param {import('next').NextApiRequest} req
@@ -13,23 +13,30 @@ export default async function handler(
 ) {
   try {
     const { method } = req;
+    await connectMongo();
 
-    // GET 요청 처리 - 모든 원소 반환
+    // GET 요청 처리 - 블로그 아이디가 일치하는 모든 원소 반환
     if (method === "GET") {
-      await connectMongo();
-      const data = await Guestbook.find();
-      res.status(200).json(data);
+      const { blogId } = req.query;
+
+      // If blogId is provided, return all elements matching the blogId
+      if (blogId) {
+        const data = await Guestbook.find({ blogId: blogId });
+        res.status(200).json(data);
+      } else {
+        const data = await Guestbook.find();
+        res.status(200).json(data);
+      }
     }
     // GET 요청 처리 - _id 일치하는 원소 반환
     else if (method === "GET" && req.query.id) {
-      await connectMongo();
       const { id } = req.query;
       const data = await Guestbook.findById(id);
       res.status(200).json(data);
     }
     // POST 요청 처리
     else if (method === "POST") {
-      await connectMongo();
+      console.log("포스트보낸다!!");
       const { blogId, visitorId, content } = req.body;
       const newEntry = new Guestbook({
         blogId: blogId,
@@ -42,7 +49,6 @@ export default async function handler(
     }
     // DELETE 요청 처리
     else if (method === "DELETE") {
-      await connectMongo();
       const { id } = req.body;
       await Guestbook.findByIdAndDelete(id);
       res.status(200).end();
