@@ -16,12 +16,23 @@ const WritePost = () => {
       alert("Please sign in first");
       return;
     }
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const date = currentDate.getDate().toString().padStart(2, "0");
+
     const res = await fetch("/api/posts/write", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ blogId: session.user.email, title, content }),
+      body: JSON.stringify({
+        blogId: session.user.email,
+        title,
+        content,
+        date: `${year}-${month}-${date}`,
+      }),
     });
     if (res.status === 200) {
       window.location.href = "http://localhost:3000/" + blogId + "/posts";
