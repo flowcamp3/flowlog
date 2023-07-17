@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import EditProfileModal from "./EditProfileModal";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 interface UserProfileProps {}
 
 const UserProfile: React.FC<UserProfileProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState("UserInfo");
+  const [user_info, setUser_info] = useState("");
 
   const { data: session } = useSession();
   const username = session?.user.email;
+
   const handleEditButtonClick = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -21,7 +24,44 @@ const UserProfile: React.FC<UserProfileProps> = () => {
 
   const handleSaveButtonClick = () => {
     setIsModalOpen(false); // Close the modal
+    updateUserInfo();
   };
+
+  const updateUserInfo = async () => {
+    try {
+      const response = await axios.post("/api/userprofile", {
+        email: username,
+        userInfo: userInfo,
+      });
+      const updatedUser = response.data.user;
+      if (updatedUser) {
+        // Handle successful update
+        setUserInfo(updatedUser.userInfo);
+      }
+    } catch (error) {
+      // Handle error
+    }
+  };
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`/api/userprofile`, {
+        params: { email: username },
+      });
+      const user = response.data.user;
+      if (user) {
+        setUserInfo(user.userInfo);
+        setUser_info(user.userInfo);
+      }
+    } catch (error) {
+      // Handle error
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      fetchUserInfo();
+    }
+  }, [username]);
 
   return (
     <div className={"container"}>
