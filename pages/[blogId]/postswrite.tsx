@@ -10,10 +10,8 @@ const WritePost = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("gg");
     if (!session) {
       alert("Please sign in first");
       return;
@@ -23,7 +21,7 @@ const WritePost = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ blogId: session.user.email, title, content, postId: 5 }),
+      body: JSON.stringify({ blogId: session.user.email, title, content }),
     });
     if (res.status === 200) {
       window.location.href = "http://localhost:3000/" + blogId + "/posts";
@@ -107,7 +105,7 @@ const WritePost = () => {
           font-size: 16px;
           padding: 8px 16px;
           margin-bottom: 12px;
-          background-color: #C1ECE4;
+          background-color: #c1ece4;
           color: black;
           border: none;
           border-radius: 4px;
