@@ -11,22 +11,22 @@ export default function BlogTabBar() {
       <Link href={`/${blogId}/posts`}>
         <div
           className={[
-            router.pathname === `/${blogId}/posts` ? "active" : "",
+            router.asPath === `/${blogId}/posts` ? "active" : "",
             "btn",
           ].join(" ")}
         >
-          포스트 구경하기
+          POST
         </div>
       </Link>
 
       <Link href={`/${blogId}/guestbook`}>
         <div
           className={[
-            router.pathname === `/${blogId}/guestbook` ? "active" : "",
+            router.asPath === `/${blogId}/guestbook` ? "active" : "",
             "btn",
           ].join(" ")}
         >
-          방명록 구경하기
+          GUESTBOOK
         </div>
       </Link>
 
@@ -62,9 +62,17 @@ export default function BlogTabBar() {
         }
 
         .btn {
+          height: 20px;
+          width: 80px;
+          text-align: center;
           color: var(--dark-green);
           padding: 10px;
           border-radius: 15px 15px 0 0;
+          font-size: 18px;
+        }
+        .btn:hover {
+          background-color: var(--dark-green);
+          color: var(--light-text);
         }
 
         .active {

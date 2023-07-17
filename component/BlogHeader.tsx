@@ -15,6 +15,7 @@ export default function BlogHeader() {
       </div>
       <style jsx>{`
         .container {
+          z-index: -1;
           width: 100vw;
           @media (min-width: 1080px) {
             width: 1080px;
