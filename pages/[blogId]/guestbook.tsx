@@ -57,6 +57,10 @@ const GuestBook: React.FC<GuestBookProps> = () => {
       });
       const data = response.data;
       setContents(data.map((item: any) => item.content));
+
+      // 맨 마지막 페이지로 설정
+      const lastPage = Math.ceil(data.length / itemsPerPage);
+      setCurrentPage(lastPage);
     } catch (error) {
       console.error(error);
     }
