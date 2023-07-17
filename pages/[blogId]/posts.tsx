@@ -5,6 +5,7 @@ import Link from "next/link";
 import Date from "../../component/date";
 import connectMongo from "../../utils/connectMongo";
 import Post from "../../models/postModel";
+import User from "../../models/userModel";
 import { Document } from "mongoose";
 
 interface Post {
@@ -73,18 +74,9 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
 export default Posts;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    {
-      params: {
-        blogId: "koh2040@naver.com",
-      },
-    },
-    {
-      params: {
-        blogId: "iineaya@naver.com",
-      },
-    },
-  ];
+  await connectMongo();
+  const users = await User.find({}, { email: 1 }).lean();
+  const paths = users.map(({ email }) => ({ params: { blogId: email } }));
   return {
     paths,
     fallback: false,

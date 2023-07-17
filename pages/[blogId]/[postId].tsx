@@ -1,13 +1,13 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
-import BlogLayout from './BlogLayout';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import BlogLayout from "./BlogLayout";
+import connectMongo from "../../utils/connectMongo";
+import Post from "../../models/postModel";
 
 interface PostProps {
   postId?: string;
 }
 
-const PostPage : React.FC<PostProps> = ({ postId }) => {
-
+const PostPage: React.FC<PostProps> = ({ postId }) => {
   return (
     <BlogLayout>
       <div>{postId}</div>
@@ -17,43 +17,29 @@ const PostPage : React.FC<PostProps> = ({ postId }) => {
 
 export default PostPage;
 
-export const getStaticPaths : GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  await connectMongo();
+  const posts = await Post.find({}, { blogId: 1, postId: 1 }).lean();
+  const paths = posts.map(({ blogId, postId }) => ({
+    params: { blogId, postId },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
-  const paths = [
-    {params : {blogId : 'koh2040@naver.com', postId : '1'}},
-    {params : {blogId : 'koh2040@naver.com', postId : '2'}},
-    {params : {blogId : 'koh2040@naver.com', postId : '3'}},
-    {params : {blogId : 'koh2040@naver.com', postId : '4'}},
-    {params : {blogId : 'koh2040@naver.com', postId : '5'}},
-    {params : {blogId : 'koh2040@naver.com', postId : '6'}},
-    
-    {params : {blogId : 'iineaya@naver.com', postId : '1'}},
-    {params : {blogId : 'iineaya@naver.com', postId : '2'}},
-    {params : {blogId : 'iineaya@naver.com', postId : '3'}},
-    {params : {blogId : 'iineaya@naver.com', postId : '4'}},
-    {params : {blogId : 'iineaya@naver.com', postId : '5'}}
-    
-  ];
+export const getStaticProps: GetStaticProps<PostProps> = async ({ params }) => {
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
+  const { postId } = params;
 
-  return{
-     paths,
-     fallback:false
-   }
-}
-
-export const getStaticProps:GetStaticProps<PostProps> = async ({params}) => {
-
-   if(!params){
-     return{
-       notFound:true
-     }
-   }
-
-   const{postId} = params;
-
-   return{
-     props:{
-       postId: typeof postId === "string" ? postId: undefined
-     }
-   }
-}
+  return {
+    props: {
+      postId: typeof postId === "string" ? postId : undefined,
+    },
+  };
+};
