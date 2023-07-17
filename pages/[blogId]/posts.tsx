@@ -1,15 +1,54 @@
+import { GetStaticProps, GetStaticPaths } from "next";
+import { useRouter } from "next/router";
 import BlogLayout from "./BlogLayout";
-import PostView from "../../component/PostView";
+import utilStyles from "../../styles/Home.module.css";
+import { getSortedPostsData } from "../../lib/posts";
+import Link from "next/link";
+import Date from "../../component/date";
+interface Post {
+  id: string;
+  title: string;
+  date: string;
+}
 
-export default function Posts() {
+interface PostsProps {
+  allPostsData: Post[];
+}
+
+const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
+  const router = useRouter();
+  const { blogId } = router.query;
   return (
     <BlogLayout>
       <div className={"container"}>
-        <h3>포스트 표시</h3>
-        <PostView />
+        <h3>포스트 목록입니다</h3>
+        {/* <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul> */}
+        <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              <Link href={`/${blogId}/${id}`}>{title}</Link>
+              <br />
+              <small className={utilStyles.lightText}>
+                <Date dateString={date} />
+              </small>
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
 
         <style jsx>{`
-          .container{
+          .container {
             border: 1px solid #ccc;
             width: 70%;
             display: flex;
@@ -20,4 +59,35 @@ export default function Posts() {
       </div>
     </BlogLayout>
   );
+};
+
+export default Posts;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = [
+    {
+      params: {
+        blogId: "koh2040@naver.com",
+      },
+    },
+    {
+      params: {
+        blogId: "iineaya@naver.com",
+      },
+    },
+  ];
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  };
 }
