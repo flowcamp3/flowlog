@@ -14,11 +14,11 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
   onDelete,
 }) => {
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.classList.add("shake");
+    event.currentTarget.classList.add("shake", "zoom");
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.classList.remove("shake");
+    event.currentTarget.classList.remove("shake", "zoom");
   };
 
   return (
@@ -49,11 +49,13 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
           display: inline-block;
         }
         .balloon {
+          transform: scale(1);
           position: relative;
           display: inline-flex;
           margin: 50px;
           background: var(--light-text);
           border-radius: 10px;
+          transition: transform 0.3s ease;
           opacity: 0.9;
         }
         .balloon::after {
@@ -65,6 +67,12 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
           position: absolute;
           bottom: 30px;
           left: -15px;
+        }
+        .balloon:hover {
+          box-shadow: -1px -1px 10px rgba(255, 255, 255, 0.1),
+            1px -1px 10px rgba(255, 255, 255, 0.5),
+            -1px 1px 10px rgba(255, 255, 255, 0.5),
+            1px 1px 10px rgba(255, 255, 255, 0.5);
         }
         .delete_button {
           position: absolute;

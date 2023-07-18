@@ -205,6 +205,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             border-radius: 4px;
             cursor: pointer;
             background-color: transparent;
+            transition: transform 0.3s ease;
           }
           .prev-button:disabled,
           .next-button:disabled {
@@ -214,7 +215,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
           .prev-button:hover,
           .next-button:hover {
             color: white;
-            background-color: whilte;
+            transform: scale(1.1);
             text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
               1px -1px 10px rgba(255, 255, 255, 0.5),
               -1px 1px 10px rgba(255, 255, 255, 0.5),
