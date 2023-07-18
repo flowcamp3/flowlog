@@ -8,6 +8,7 @@ import Post from "../../models/postModel";
 import User from "../../models/userModel";
 import { Document } from "mongoose";
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 interface Post {
   blogId: string;
@@ -32,6 +33,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = allPostsData.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(allPostsData.length / postsPerPage);
+  const { data: session } = useSession();
 
   const goToPrevPage = () => {
     setCurrentPage(currentPage - 1);
@@ -48,6 +50,8 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
   useEffect(() => {
     goToLastPage();
   }, []);
+
+  const showWriteButton = session?.user.email === blogId;
 
   return (
     <BlogLayout>
@@ -70,9 +74,11 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
               &gt;
             </button>
           </div>
-          <Link href={`/${blogId}/postswrite`}>
-            <div className={"write_btn"}>✎ write</div>
-          </Link>
+          {showWriteButton && (
+            <Link href={`/${blogId}/postswrite`}>
+              <div className={"write_btn"}>✎ write</div>
+            </Link>
+          )}
           <ul className="list">
             {currentPosts.map(({ postId, date, title }) => (
               <li className="listItem" key={postId}>
