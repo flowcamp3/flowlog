@@ -62,7 +62,12 @@ const GuestBook: React.FC<GuestBookProps> = () => {
         params: { blogId: blogId }, // Replace with the actual blogId
       });
       const data = response.data;
-      setContents(data.map((item: any) => item.content));
+      setContents(
+        data.map((item: any) => ({
+          content: item.content,
+          visitorId: item.visitorId,
+        }))
+      );
 
       // 맨 마지막 페이지로 설정
       const lastPage = Math.ceil(data.length / itemsPerPage);
@@ -116,8 +121,8 @@ const GuestBook: React.FC<GuestBookProps> = () => {
           {currentItems.map((item, index) => (
             <GuestbookBalloon
               key={index}
-              writerId={writerId}
-              content={item}
+              writerId={item.visitorId}
+              content={item.content}
               onDelete={() =>
                 handleDelete(index + (currentPage - 1) * itemsPerPage)
               }
