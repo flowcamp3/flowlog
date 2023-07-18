@@ -31,6 +31,26 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
     <BlogLayout>
       <div className={"container"}>
         <div className={"post_container"}>
+          <div className={"upper_container"}>
+            <button
+              className="prev-button"
+              // onClick={goToPrevPage}
+              // disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            <h2 className={"title"}>POST</h2>
+
+            <button
+              className="next-button"
+              // onClick={goToNextPage}
+              // disabled={
+              //   currentPage === Math.ceil(contents.length / itemsPerPage)
+              // }
+            >
+              &gt;
+            </button>
+          </div>
           {/* <h3>포스트 목록입니다</h3> */}
           <ul className={"list"}>
             {allPostsData.map(({ postId, date, title }) => (
@@ -50,6 +70,43 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
             width: 70%;
             display: flex;
             flex-direction: column;
+          }
+          .title {
+            color: var(--light-text);
+            text-align: center;
+            font-size: 55px;
+            margin-left: 15px;
+            margin-right: 15px;
+          }
+          .upper_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .prev-button,
+          .next-button {
+            margin: 0 5px;
+            font-size: 40px;
+            padding: 5px 10px;
+            color: var(--light-text);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: transparent;
+          }
+          .prev-button:disabled,
+          .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+          .prev-button:hover,
+          .next-button:hover {
+            color: white;
+            background-color: whilte;
+            text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
+              1px -1px 10px rgba(255, 255, 255, 0.5),
+              -1px 1px 10px rgba(255, 255, 255, 0.5),
+              1px 1px 10px rgba(255, 255, 255, 0.5);
           }
           .post_container {
             position: relative;
