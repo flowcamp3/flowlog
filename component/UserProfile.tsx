@@ -3,6 +3,7 @@ import Image from "next/image";
 import EditProfileModal from "./EditProfileModal";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 interface UserProfileProps {}
 
@@ -12,7 +13,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const [user_info, setUser_info] = useState("");
 
   const { data: session } = useSession();
-  const username = session?.user.email;
+  const router = useRouter();
+  const username = router.query.blogId as string;
 
   const handleEditButtonClick = () => {
     setIsModalOpen(!isModalOpen);

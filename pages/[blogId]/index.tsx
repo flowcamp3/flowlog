@@ -4,6 +4,8 @@ import { ReactElement } from "react";
 import Posts from "./posts";
 import GuestBook from "./guestbook";
 import BlogLayout from "./BlogLayout";
+import connectMongo from "../../utils/connectMongo";
+import User from "../../models/userModel";
 
 interface BlogProps {
   blogId: string;
@@ -22,21 +24,9 @@ const Blog: React.FC<BlogProps> = ({ blogId, content }) => {
 export default Blog;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    {
-      params: {
-        blogId: "koh2040@naver.com",
-        page: "index",
-      },
-    },
-    {
-      params: {
-        blogId: "iineaya@naver.com",
-        page: "index",
-      },
-    },
-  ];
-
+  await connectMongo();
+  const users = await User.find({}, { email: 1 }).lean();
+  const paths = users.map(({ email }) => ({ params: { blogId: email } }));
   return {
     paths,
     fallback: false,

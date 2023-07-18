@@ -10,20 +10,29 @@ const WritePost = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("gg");
     if (!session) {
       alert("Please sign in first");
       return;
     }
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const date = currentDate.getDate().toString().padStart(2, "0");
+
     const res = await fetch("/api/posts/write", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ blogId: session.user.email, title, content, postId: 5 }),
+      body: JSON.stringify({
+        blogId: session.user.email,
+        title,
+        content,
+        date: `${year}-${month}-${date}`,
+      }),
     });
     if (res.status === 200) {
       window.location.href = "http://localhost:3000/" + blogId + "/posts";
@@ -107,7 +116,7 @@ const WritePost = () => {
           font-size: 16px;
           padding: 8px 16px;
           margin-bottom: 12px;
-          background-color: #C1ECE4;
+          background-color: #c1ece4;
           color: black;
           border: none;
           border-radius: 4px;

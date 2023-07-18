@@ -1,4 +1,3 @@
-import { useState, ChangeEvent, FormEvent } from "react";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -21,15 +20,22 @@ export default function Home() {
   }, [session]);
 
   return (
-    <div>
-      <button
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "90vh",
+      }}
+    >
+      <img
+        src="/images/kakao_login_medium_wide.png"
+        alt="카카오 로그인"
         onClick={() => {
           signIn("kakao");
         }}
-      >
-        카카오 로그인
-      </button>
-      <h1>로그인 해주세요</h1>
+        style={{ cursor: "pointer" }}
+      />
     </div>
   );
 }

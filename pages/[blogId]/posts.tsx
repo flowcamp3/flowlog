@@ -1,48 +1,44 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 import BlogLayout from "./BlogLayout";
-import utilStyles from "../../styles/Home.module.css";
-import { getSortedPostsData } from "../../lib/posts";
 import Link from "next/link";
 import Date from "../../component/date";
+import connectMongo from "../../utils/connectMongo";
+import Post from "../../models/postModel";
+import User from "../../models/userModel";
+import { Document } from "mongoose";
+
 interface Post {
-  id: string;
+  blogId: string;
+  postId: string;
   title: string;
   date: string;
+  content: string;
 }
 
+interface PostDocument extends Post, Document {}
+interface PostSerializable extends Omit<PostDocument, "_id"> {}
 interface PostsProps {
-  allPostsData: Post[];
+  allPostsData: PostSerializable[];
 }
 
 const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
   const router = useRouter();
   const { blogId } = router.query;
+
   return (
     <BlogLayout>
       <div className={"container"}>
-        <h3>포스트 목록입니다</h3>
-        {/* <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              {title}
+        {/* <h3>포스트 목록입니다</h3> */}
+        <ul className={"list"}>
+          {allPostsData.map(({ postId, date, title }) => (
+            <li className={"listItem"} key={postId}>
+              <Link href={`/${blogId}/${postId}`}>{title}</Link>
               <br />
-              {id}
               <br />
-              {date}
-            </li>
-          ))}
-        </ul> */}
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/${blogId}/${id}`}>{title}</Link>
-              <br />
-              <small className={utilStyles.lightText}>
+              <small className={"lightText"}>
                 <Date dateString={date} />
               </small>
-              <br />
-              {date}
             </li>
           ))}
         </ul>
@@ -53,7 +49,21 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
             width: 70%;
             display: flex;
             flex-direction: column;
-            place-items: center;/
+          }
+          .list {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+          }
+          .listItem {
+            border: 1px solid #ccc;
+            margin: 0 0 1.25rem;
+            font-size: large;
+            border-radius: 10px;
+            padding: 10px;
+          }
+          .lightText {
+            color: #666;
           }
         `}</style>
       </div>
@@ -64,30 +74,23 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
 export default Posts;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    {
-      params: {
-        blogId: "koh2040@naver.com",
-      },
-    },
-    {
-      params: {
-        blogId: "iineaya@naver.com",
-      },
-    },
-  ];
-
+  await connectMongo();
+  const users = await User.find({}, { email: 1 }).lean();
+  const paths = users.map(({ email }) => ({ params: { blogId: email } }));
   return {
     paths,
     fallback: false,
   };
 };
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { blogId } = context.params as { blogId: string };
+  await connectMongo();
+  const allPostsData = await Post.find({ blogId }).sort({ _id: -1 }).lean();
+  const allPostsDataSerializable = allPostsData.map(({ _id, ...post }) => post);
   return {
     props: {
-      allPostsData,
+      allPostsData: allPostsDataSerializable,
     },
   };
-}
+};
