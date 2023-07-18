@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import css from "styled-jsx/css";
 import FriendModal from "./FriendModal";
 import { signOut, useSession } from "next-auth/react";
 
@@ -39,12 +38,17 @@ export default function TopNavBar() {
                   내 블로그
                 </div>
               </Link>
-
-              <button onClick={openModal}>
-                <div className={`btn friend_btn`}>친구 목록</div>
-              </button>
+              <div
+                style={{ cursor: "pointer" }}
+                className="btn"
+                onClick={() => {
+                  openModal();
+                }}
+              >
+                친구 목록
+              </div>
               <FriendModal isOpen={modalOpen} onClose={closeModal}>
-                <h2>이것은 모달입니다</h2>
+                <h2>친구 목록</h2>
                 <p>모달 내용이 들어갑니다</p>
               </FriendModal>
               <div
@@ -89,13 +93,6 @@ export default function TopNavBar() {
             padding-left: 10px;
             padding-right: 10px;
             text-align: center;
-          }
-          .friend_btn {
-            font-family: inherit;
-            font-size: inherit;
-            background-color: transparent;
-            border: none;
-            padding: 0;
           }
           .active {
             text-decoration: none;
