@@ -3,6 +3,7 @@ import Image from "next/image";
 import EditProfileModal from "./EditProfileModal";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import Uploader from "./uploader";
 
 interface UserProfileProps {}
 
@@ -94,7 +95,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 width={200}
                 height={200}
               />
-              <button className="add_image_button">Add Image</button>
+              <button className="add_image_button">
+                <Uploader />
+              </button>
             </div>
             <div className="info_section">
               <input
