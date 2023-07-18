@@ -8,7 +8,9 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <NavBar />
+      <div style={{ position: 'fixed', top: 0,  width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <NavBar />
+      </div>
       <div>{children}</div>
     </>
   );

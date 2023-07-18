@@ -47,7 +47,7 @@ export default function TopNavBar() {
           </FriendModal>
 
           <Link href="/home">
-            <div
+            <div style={{ marginRight: "20px" }}
               className={[
                 router.pathname === "/home" ? "active" : "",
                 "btn",
@@ -67,9 +67,9 @@ export default function TopNavBar() {
           }
           .nav_bar {
             width: 100vw;
-            @media (min-width: 1080px) {
-              width: 1080px;
-            }
+            // @media (min-width: 1080px) {
+            //   width: 1080px;
+            // }
             height: 40px;
             background-color: var(--light-green);
             display: flex;
