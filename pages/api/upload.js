@@ -24,7 +24,7 @@ const handler = nextConnect()
       const key = Date.now().toString() + "-" + file.originalname;
 
       const putParams = {
-        Bucket: process.env.S3_BUCKET_NAME,
+        Bucket: process.env.BUCKET_NAME,
         Key: key,
         Body: file.buffer,
         ContentType: file.mimetype,

@@ -4,7 +4,6 @@ import EditProfileModal from "./EditProfileModal";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Uploader from "./uploader";
 
 interface UserProfileProps {}
 
@@ -12,10 +11,36 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState("UserInfo");
   const [user_info, setUser_info] = useState("");
-
   const { data: session } = useSession();
   const router = useRouter();
   const username = router.query.blogId as string;
+
+  const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]!;
+    const filename = encodeURIComponent(file.name);
+    const fileType = encodeURIComponent(file.type);
+  
+    const res = await fetch(
+      `/api/upload-url?file=${username}&fileType=${fileType}`
+    );
+    const { url, fields } = await res.json();
+    const formData = new FormData();
+  
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+  
+    const upload = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+  
+    if (upload.ok) {
+      console.log("Uploaded successfully!");
+    } else {
+      console.error("Upload failed.");
+    }
+  };
 
   const handleEditButtonClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -28,6 +53,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const handleSaveButtonClick = () => {
     setIsModalOpen(false); // Close the modal
     updateUserInfo();
+    window.location.reload();
   };
 
   const updateUserInfo = async () => {
@@ -70,13 +96,22 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     <div className={"container"}>
       <div className="contents">
         <div className={"user_img"}>
-          <Image
+          <img
+            src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${encodeURIComponent(username)}`}
+            alt="User Image"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = "../public/assets/user_img.png";
+            }}
+          />
+          {/* <Image
             src="/assets/user_img.png"
             alt="User Image"
             layout="responsive"
             width={100}
             height={100}
-          />
+          /> */}
         </div>
         <div className={"lower_container"}>
           <button className={"edit_button"} onClick={handleEditButtonClick}>
@@ -91,15 +126,26 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         <EditProfileModal isOpen={isModalOpen} onClose={handleEditButtonClick}>
           <div className="modal_content">
             <div className="image_section">
-              <Image
+            <img
+            src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${encodeURIComponent(username)}`}
+            alt="User Image"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = "../public/assets/user_img.png";
+            }}
+          />
+              {/* <Image
                 src="/assets/user_img.png"
                 alt="User Image"
                 width={200}
                 height={200}
+              /> */}
+              <input
+                onChange={uploadPhoto}
+                type="file"
+                accept="image/png, image/jpeg"
               />
-              <button className="add_image_button">
-                <Uploader />
-              </button>
             </div>
             <div className="info_section">
               <input
