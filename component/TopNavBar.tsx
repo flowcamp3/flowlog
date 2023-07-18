@@ -5,26 +5,26 @@ import FriendModal from "./FriendModal";
 import { signOut, useSession } from "next-auth/react";
 
 interface FollowingData {
-  blogId: string;
-  blogName: string;
+  email: string;
 }
-
-const allFollwing = (): FollowingData[] => {
-  return [
-    { blogId: "koh2040@naver.com", blogName: "panorama" },
-    { blogId: "iineaya@naver.com", blogName: "ihihihi" },
-    { blogId: "abcdefg@naver.com", blogName: "친구3" },
-  ];
-};
 
 export default function TopNavBar() {
   const router = useRouter();
   const [modalOpen, setShowModal] = useState(false);
-  const [allFollwingData, setAllFollowingData] = useState<FollowingData[]>([]);
+  const [allFollowingData, setAllFollowingData] = useState<FollowingData[]>([]);
   const { data: session } = useSession();
-  const openModal = () => {
-    setShowModal(true);
-    setAllFollowingData(allFollwing());
+
+  const showFollowing = async (email: string): Promise<void> => {
+    const res: Response = await fetch(`/api/following?email=${email}`);
+    const data: FollowingData[] = await res.json();
+    setAllFollowingData(data);
+  };
+
+  const openModal = async () => {
+    if (session) {
+      await showFollowing(session?.user.email);
+      setShowModal(true);
+    }
   };
 
   const closeModal = () => {
@@ -73,11 +73,11 @@ export default function TopNavBar() {
               </div>
               <FriendModal isOpen={modalOpen} onClose={closeModal}>
                 <h2>친구 목록</h2>
-                <ul className={"list"}>
-                  {allFollwingData.map(({ blogId, blogName }) => (
-                    <li className={"listItem"} key={blogId}>
-                      <a href={`/${blogId}`} onClick={closeModal}>
-                        {blogName}({blogId})
+                <ul className="list">
+                  {allFollowingData.map(({ email }) => (
+                    <li className="listItem" key={email}>
+                      <a href={`/${email}`} onClick={closeModal}>
+                        {email}
                       </a>
                     </li>
                   ))}
