@@ -7,7 +7,7 @@ import connectMongo from "../../utils/connectMongo";
 import Post from "../../models/postModel";
 import User from "../../models/userModel";
 import { Document } from "mongoose";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Post {
   blogId: string;
@@ -41,6 +41,14 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
     setCurrentPage(currentPage + 1);
   };
 
+  const goToLastPage = () => {
+    setCurrentPage(totalPages);
+  };
+
+  useEffect(() => {
+    goToLastPage();
+  }, []);
+
   return (
     <BlogLayout>
       <div className="container">
@@ -65,10 +73,12 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           <ul className="list">
             {currentPosts.map(({ postId, date, title }) => (
               <li className="listItem" key={postId}>
-                <Link href={`/${blogId}/${postId}`}>{title}</Link>
+                <Link href={`/${blogId}/${postId}`}>
+                  <div className={"title_text"}>{title}</div>
+                </Link>
                 <br />
                 <br />
-                <small className="lightText">
+                <small className="date_text">
                   <Date dateString={date} />
                 </small>
               </li>
@@ -104,6 +114,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           border-radius: 4px;
           cursor: pointer;
           background-color: transparent;
+          transition: transform 0.3s ease;
         }
         .prev-button:disabled,
         .next-button:disabled {
@@ -113,6 +124,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
         .prev-button:hover,
         .next-button:hover {
           color: white;
+          transform: scale(1.1);
           text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
             1px -1px 10px rgba(255, 255, 255, 0.5),
             -1px 1px 10px rgba(255, 255, 255, 0.5),
@@ -133,17 +145,28 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
         }
         .listItem {
           border: 1px solid #ccc;
-          margin: 0 0 1.25rem;
+          margin: 5% 10%;
           font-size: large;
           border-radius: 10px;
-          padding: 10px;
+          padding: 25px;
           transition: background-color 0.3s;
         }
         .listItem:hover {
           background-color: rgba(255, 255, 255, 0.7);
-          color: var(--dark-text);
+          box-shadow: -1px -1px 10px rgba(255, 255, 255, 0.2),
+            1px -1px 10px rgba(255, 255, 255, 0.2),
+            -1px 1px 10px rgba(255, 255, 255, 0.2),
+            1px 1px 10px rgba(255, 255, 255, 0.2);
+          .title_text {
+            color: var(--dark-text);
+          }
         }
-        .lightText {
+        .title_text {
+          font-size: 20px;
+          color: var(--light-text);
+        }
+
+        .date_text {
           color: #666;
         }
       `}</style>
