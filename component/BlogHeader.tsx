@@ -1,9 +1,49 @@
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function BlogHeader() {
+const BlogHeader: React.FC = () => {
+  const charContainerRef = useRef<HTMLDivElement>(null);
+  const [charPosition, setCharPosition] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const container = charContainerRef.current;
+      if (!container) return;
+
+      const { top, left } = charPosition;
+      let newTop = top;
+      let newLeft = left;
+
+      switch (event.key) {
+        case "ArrowUp":
+          newTop -= 10;
+          break;
+        case "ArrowDown":
+          newTop += 10;
+          break;
+        case "ArrowLeft":
+          newLeft -= 10;
+          break;
+        case "ArrowRight":
+          newLeft += 10;
+          break;
+        default:
+          return;
+      }
+
+      setCharPosition({ top: newTop, left: newLeft });
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [charPosition]);
+
   return (
     <div>
-      <div className={"container"}>
+      <div className="container">
         <div className="img_container">
           <Image
             src="/assets/sample_header2.jpg"
@@ -11,6 +51,22 @@ export default function BlogHeader() {
             layout="fill"
             objectFit="cover"
           />
+          <div
+            className="char_container"
+            ref={charContainerRef}
+            style={{
+              top: `${charPosition.top}px`,
+              left: `${charPosition.left}px`,
+            }}
+          >
+            <Image
+              src="/assets/test_img.png"
+              alt="sample header"
+              width={50}
+              height={50}
+              className="character"
+            />
+          </div>
         </div>
       </div>
       <style jsx>{`
@@ -32,7 +88,22 @@ export default function BlogHeader() {
           width: 100%;
           height: 100%;
         }
+        .char_container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          transition: top 0.3s ease, left 0.3s ease; /* 추가 */
+        }
+        .character {
+          max-width: 100%;
+          max-height: 100%;
+        }
       `}</style>
     </div>
   );
-}
+};
+
+export default BlogHeader;

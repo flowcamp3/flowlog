@@ -141,7 +141,6 @@ const GuestBook: React.FC<GuestBookProps> = () => {
 
         <style jsx>{`
           .container {
-            z-index: -1;
             width: 70%;
             display: flex;
           }
@@ -211,6 +210,15 @@ const GuestBook: React.FC<GuestBookProps> = () => {
           .next-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+          }
+          .prev-button:hover,
+          .next-button:hover {
+            color: white;
+            background-color: whilte;
+            text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
+              1px -1px 10px rgba(255, 255, 255, 0.5),
+              -1px 1px 10px rgba(255, 255, 255, 0.5),
+              1px 1px 10px rgba(255, 255, 255, 0.5);
           }
         `}</style>
       </div>

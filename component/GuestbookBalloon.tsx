@@ -1,6 +1,5 @@
 // writerid가 블로그 쿼리와 일치 시 말풍선 방향 바꾸는 코드 추가해야 함
 // 말풍선 옆에 user 아바타 놓는 코드 추가해야 함
-
 import React from "react";
 
 interface GuestbookBalloonProps {
@@ -14,8 +13,20 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
   content,
   onDelete,
 }) => {
+  const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.currentTarget.classList.add("shake");
+  };
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.currentTarget.classList.remove("shake");
+  };
+
   return (
-    <div className="balloon">
+    <div
+      className="balloon"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="content_container">
         <div className="content">{content}</div>
         <div className="writer">{writerId}</div>
@@ -47,7 +58,7 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
         }
         .balloon::after {
           border-top: 15px solid var(--light-text);
-          border-left: 15px solid transparent;
+          border-left: 18px solid transparent;
           border-right: 0px solid transparent;
           border-bottom: 0px solid transparent;
           content: "";
@@ -65,6 +76,46 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
           color: var(--dark-green);
           font-size: 16px;
           cursor: pointer;
+        }
+
+        .shake {
+          animation: shake 5s ease-in-out;
+        }
+
+        @keyframes shake {
+          0% {
+            transform: translateX(0);
+          }
+          10% {
+            transform: translateX(-5px);
+          }
+          20% {
+            transform: translateX(5px);
+          }
+          30% {
+            transform: translateX(-5px);
+          }
+          40% {
+            transform: translateX(5px);
+          }
+          50% {
+            transform: translateX(-5px);
+          }
+          60% {
+            transform: translateX(5px);
+          }
+          70% {
+            transform: translateX(-5px);
+          }
+          80% {
+            transform: translateX(5px);
+          }
+          90% {
+            transform: translateX(-5px);
+          }
+          100% {
+            transform: translateX(0);
+          }
         }
       `}</style>
     </div>
