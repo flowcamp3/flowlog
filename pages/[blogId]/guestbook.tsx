@@ -160,7 +160,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             position: relative;
             width: 100%;
             height: 1000px;
-            background-image: url("/assets/sample_header.jpg");
+            background-image: url("/assets/sample_header3.jpg");
             background-size: cover;
             background-position: center;
           }

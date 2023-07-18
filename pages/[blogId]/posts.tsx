@@ -7,6 +7,7 @@ import connectMongo from "../../utils/connectMongo";
 import Post from "../../models/postModel";
 import User from "../../models/userModel";
 import { Document } from "mongoose";
+import React, { useState } from "react";
 
 interface Post {
   blogId: string;
@@ -29,26 +30,34 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
   return (
     <BlogLayout>
       <div className={"container"}>
-        {/* <h3>포스트 목록입니다</h3> */}
-        <ul className={"list"}>
-          {allPostsData.map(({ postId, date, title }) => (
-            <li className={"listItem"} key={postId}>
-              <Link href={`/${blogId}/${postId}`}>{title}</Link>
-              <br />
-              <br />
-              <small className={"lightText"}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
-
+        <div className={"post_container"}>
+          {/* <h3>포스트 목록입니다</h3> */}
+          <ul className={"list"}>
+            {allPostsData.map(({ postId, date, title }) => (
+              <li className={"listItem"} key={postId}>
+                <Link href={`/${blogId}/${postId}`}>{title}</Link>
+                <br />
+                <br />
+                <small className={"lightText"}>
+                  <Date dateString={date} />
+                </small>
+              </li>
+            ))}
+          </ul>
+        </div>
         <style jsx>{`
           .container {
-            border: 1px solid #ccc;
             width: 70%;
             display: flex;
             flex-direction: column;
+          }
+          .post_container {
+            position: relative;
+            width: 100%;
+            height: 1000px;
+            background-image: url("/assets/sample_header.jpg");
+            background-size: cover;
+            background-position: center;
           }
           .list {
             list-style: none;
@@ -61,6 +70,11 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
             font-size: large;
             border-radius: 10px;
             padding: 10px;
+            transition: background-color 0.3s;
+          }
+          .listItem:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            color: var(--dark-text);
           }
           .lightText {
             color: #666;
