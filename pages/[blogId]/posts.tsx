@@ -70,6 +70,9 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
               &gt;
             </button>
           </div>
+          <Link href={`/${blogId}/postswrite`}>
+            <div className={"write_btn"}>✎ write</div>
+          </Link>
           <ul className="list">
             {currentPosts.map(({ postId, date, title }) => (
               <li className="listItem" key={postId}>
@@ -116,19 +119,27 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           background-color: transparent;
           transition: transform 0.3s ease;
         }
+
         .prev-button:disabled,
         .next-button:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
         .prev-button:hover,
-        .next-button:hover {
+        .next-button:hover,
+        .write_btn:hover {
           color: white;
           transform: scale(1.1);
           text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
             1px -1px 10px rgba(255, 255, 255, 0.5),
             -1px 1px 10px rgba(255, 255, 255, 0.5),
             1px 1px 10px rgba(255, 255, 255, 0.5);
+        }
+        .write_btn {
+          color: var(--light-text);
+          text-align: center;
+          font-size: 20px;
+          transition: transform 0.3s ease;
         }
         .post_container {
           position: relative;
@@ -165,7 +176,6 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           font-size: 20px;
           color: var(--light-text);
         }
-
         .date_text {
           color: #666;
         }
