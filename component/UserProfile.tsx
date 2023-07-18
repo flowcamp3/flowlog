@@ -19,22 +19,22 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     const file = e.target.files?.[0]!;
     const filename = encodeURIComponent(file.name);
     const fileType = encodeURIComponent(file.type);
-  
+
     const res = await fetch(
       `/api/upload-url?file=${username}&fileType=${fileType}`
     );
     const { url, fields } = await res.json();
     const formData = new FormData();
-  
+
     Object.entries({ ...fields, file }).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
-  
+
     const upload = await fetch(url, {
       method: "POST",
       body: formData,
     });
-  
+
     if (upload.ok) {
       console.log("Uploaded successfully!");
     } else {
@@ -97,26 +97,23 @@ const UserProfile: React.FC<UserProfileProps> = () => {
       <div className="contents">
         <div className={"user_img"}>
           <img
-            src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${encodeURIComponent(username)}`}
+            src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${
+              process.env.NEXT_PUBLIC_AWS_REGION
+            }.amazonaws.com/${encodeURIComponent(username)}`}
             alt="User Image"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.onerror = null;
-              target.src = "../public/assets/user_img.png";
+              target.src = "/assets/user_img.png";
             }}
           />
-          {/* <Image
-            src="/assets/user_img.png"
-            alt="User Image"
-            layout="responsive"
-            width={100}
-            height={100}
-          /> */}
         </div>
         <div className={"lower_container"}>
-          <button className={"edit_button"} onClick={handleEditButtonClick}>
-            edit
-          </button>
+          {session && username === session.user.email && (
+            <button className="edit_button" onClick={handleEditButtonClick}>
+              edit
+            </button>
+          )}
           <div className={"user_nickname"}>{username}</div>
           <div className={"user_info"}>{userInfo}</div>
         </div>
@@ -126,21 +123,17 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         <EditProfileModal isOpen={isModalOpen} onClose={handleEditButtonClick}>
           <div className="modal_content">
             <div className="image_section">
-            <img
-            src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${encodeURIComponent(username)}`}
-            alt="User Image"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = "../public/assets/user_img.png";
-            }}
-          />
-              {/* <Image
-                src="/assets/user_img.png"
+              <img
+                src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${
+                  process.env.NEXT_PUBLIC_AWS_REGION
+                }.amazonaws.com/${encodeURIComponent(username)}`}
                 alt="User Image"
-                width={200}
-                height={200}
-              /> */}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = "/assets/user_img.png";
+                }}
+              />
               <input
                 onChange={uploadPhoto}
                 type="file"
