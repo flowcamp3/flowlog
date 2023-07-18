@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
       <div style={{ position: 'fixed', top: 0,  width: '100%', display: 'flex', justifyContent: 'center' }}>
         <NavBar />
       </div>
-      <div>{children}</div>
+      <div style={{marginTop: "40px"}}>{children}</div>
     </>
   );
 }
