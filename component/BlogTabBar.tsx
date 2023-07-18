@@ -30,7 +30,7 @@ export default function BlogTabBar() {
         </div>
       </Link>
 
-      <Link href={`/${blogId}/postswrite`}>
+      {/* <Link href={`/${blogId}/postswrite`}>
         <div
           className={[
             router.pathname === `/${blogId}/postswrite` ? "active" : "",
@@ -39,7 +39,7 @@ export default function BlogTabBar() {
         >
           포스트 작성하기
         </div>
-      </Link>
+      </Link> */}
 
       <style jsx>{`
         .nav_bar {

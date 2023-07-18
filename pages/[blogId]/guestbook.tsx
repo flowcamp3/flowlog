@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import BlogLayout from "./BlogLayout";
 import GuestbookBalloon from "../../component/GuestbookBalloon";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface GuestBookProps {}
 
 const GuestBook: React.FC<GuestBookProps> = () => {
-  const writerId = "user1";
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { blogId } = router.query;
+
+  const writerId = session?.user.email ?? "";
   const [content, setContent] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [contents, setContents] = useState<string[]>([]);
@@ -21,8 +27,8 @@ const GuestBook: React.FC<GuestBookProps> = () => {
     if (content.trim() !== "") {
       try {
         await axios.post("/api/guestbook", {
-          blogId: "yourBlogId", // Replace with the actual blogId
-          visitorId: writerId,
+          blogId: blogId, // Replace with the actual blogId
+          visitorId: session?.user.email,
           content: content,
         });
         setContents([...contents, content]);
@@ -53,7 +59,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
   const fetchGuestbookData = async () => {
     try {
       const response = await axios.get("/api/guestbook", {
-        params: { blogId: "yourBlogId" }, // Replace with the actual blogId
+        params: { blogId: blogId }, // Replace with the actual blogId
       });
       const data = response.data;
       setContents(data.map((item: any) => item.content));
@@ -160,7 +166,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             position: relative;
             width: 100%;
             height: 1000px;
-            background-image: url("/assets/sample_header.jpg");
+            background-image: url("/assets/sample_header3.jpg");
             background-size: cover;
             background-position: center;
           }
@@ -205,6 +211,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
             border-radius: 4px;
             cursor: pointer;
             background-color: transparent;
+            transition: transform 0.3s ease;
           }
           .prev-button:disabled,
           .next-button:disabled {
@@ -214,7 +221,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
           .prev-button:hover,
           .next-button:hover {
             color: white;
-            background-color: whilte;
+            transform: scale(1.1);
             text-shadow: -1px -1px 10px rgba(255, 255, 255, 0.5),
               1px -1px 10px rgba(255, 255, 255, 0.5),
               -1px 1px 10px rgba(255, 255, 255, 0.5),
