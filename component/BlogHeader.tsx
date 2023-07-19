@@ -60,7 +60,7 @@ const BlogHeader: React.FC = () => {
             }}
           >
             <Image
-              src="/assets/test_img.png"
+              src="/assets/walking_char.gif"
               alt="sample header"
               width={50}
               height={50}
@@ -98,8 +98,8 @@ const BlogHeader: React.FC = () => {
           transition: top 0.3s ease, left 0.3s ease; /* 추가 */
         }
         .character {
-          max-width: 100%;
-          max-height: 100%;
+          max-width: 400%;
+          max-height: 400%;
         }
       `}</style>
     </div>
