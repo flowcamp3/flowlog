@@ -16,9 +16,36 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const username = router.query.blogId as string;
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const handleFollowButtonClick = () => {
-    setIsFollowing(!isFollowing);
+  const handleFollowButtonClick = async () => {
+    if (session) {
+      if (isFollowing) {
+        await fetch(`/api/following`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionEmail: session.user.email,
+            username,
+          }),
+        });
+      } else {
+        await fetch(`/api/following`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionEmail: session.user.email,
+            username,
+          }),
+        });
+      }
+      setIsFollowing(!isFollowing);
+    }
   };
+  
+  
 
   const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]!;
@@ -91,6 +118,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     }
   };
 
+  // 세션유저가 블로그를 팔로우하는지 체크하는 함수
   async function checkIsFollow(
     sessionEmail: string,
     username: string

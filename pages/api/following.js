@@ -27,12 +27,47 @@ export default async function handler(req, res) {
       res.status(500).json({ message: error.message });
     }
   } else if (req.method === "POST") {
+    // 친구 추가 기능
     try {
-      console.log(req.body);
       await connectMongo();
-      const following = await Following.findOne({ email: email });
-      console.log("FIND DOCUMENT");
-      res.status(200).json({ redirect: "/signup" });
+      const following = await Following.findOne({ email: req.body.sessionEmail });
+      if (following) {
+        const isFollow = following.followings.some(
+          (following) => following.email === req.body.username
+        );
+        if (!isFollow) {
+          following.followings.push({ email: req.body.username });
+          await following.save();
+          console.log("추가했어요");
+        }
+        res.status(200).json(following);
+      } else {
+        res.status(404).end();
+      }
+      
+    } catch (error) {
+      console.log(error);
+      res.json({ error });
+    }
+  } else if (req.method === "DELETE") {
+    // 친구 삭제 기능
+    try {
+      await connectMongo();
+      const following = await Following.findOne({ email: req.body.sessionEmail });
+      if (following) {
+        const index = following.followings.findIndex(
+          (following) => following.email === req.body.username
+        );
+        if (index !== -1) {
+          following.followings.splice(index, 1);
+          await following.save();
+          console.log("삭제했어요")
+        }
+        res.status(200).json(following);
+      } else {
+        res.status(404).end();
+      }
+      
     } catch (error) {
       console.log(error);
       res.json({ error });
