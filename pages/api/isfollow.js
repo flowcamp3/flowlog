@@ -9,7 +9,6 @@ import Following from "../../models/followingModel";
 
 export default async function handler(req, res) {
     if (req.method === "GET") {
-        console.log(req.query);
       const { sessionEmail, username } = req.query;
       await connectMongo();
       const following = await Following.findOne({ email: sessionEmail });
