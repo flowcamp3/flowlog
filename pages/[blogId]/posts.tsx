@@ -96,6 +96,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           width: 70%;
           display: flex;
           flex-direction: column;
+          // z-index: -1;
         }
         .title {
           color: var(--light-text);
@@ -144,7 +145,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           transition: transform 0.3s ease;
         }
         .post_container {
-          position: relative;
+          position: static;
           width: 100%;
           height: 1000px;
           background-image: url("/assets/sample_header.jpg");
