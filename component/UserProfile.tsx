@@ -91,11 +91,32 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     }
   };
 
+  async function checkIsFollow(
+    sessionEmail: string,
+    username: string
+  ): Promise<boolean> {
+    const res: Response = await fetch(
+      `/api/isfollow?sessionEmail=${sessionEmail}&username=${username}`
+    );
+    const data: boolean = await res.json();
+    return data;
+  }  
+
   useEffect(() => {
     if (username) {
       fetchUserInfo();
     }
   }, [username]);
+
+  useEffect(() => {
+    async function checkFollowingStatus() {
+      if (session && username !== session.user.email) {
+        const isFollow = await checkIsFollow(session.user.email, username);
+        setIsFollowing(isFollow);
+      }
+    }
+    checkFollowingStatus();
+  }, [session, username]);
 
   return (
     <div className={"container"}>
