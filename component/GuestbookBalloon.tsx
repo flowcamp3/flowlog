@@ -1,5 +1,6 @@
 // writerid가 블로그 쿼리와 일치 시 말풍선 방향 바꾸는 코드 추가해야 함
 // 말풍선 옆에 user 아바타 놓는 코드 추가해야 함
+import Link from "next/link";
 import React from "react";
 
 interface GuestbookBalloonProps {
@@ -13,6 +14,10 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
   content,
   onDelete,
 }) => {
+  const handleClick = () => {
+    window.location.href = `/${writerId}/guestbook`;
+  };
+
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.classList.add("shake", "zoom");
   };
@@ -27,6 +32,7 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <Link href={`/${writerId}/posts`}>
       <div className="content_container">
         <div className="content">{content}</div>
         <div className="writer">{writerId}</div>
@@ -34,6 +40,7 @@ const GuestbookBalloon: React.FC<GuestbookBalloonProps> = ({
           X
         </button>
       </div>
+      </Link>
       <style jsx>{`
         .content_container {
           padding: 50px 25px 25px 25px;

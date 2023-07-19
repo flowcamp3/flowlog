@@ -41,7 +41,7 @@ export default function TopNavBar() {
         <div style={{ display: "flex" }}>
           {session ? (
             <>
-              <Link href={`/${session.user.email}`}>
+              <Link href={`/${session.user.email}/posts`}>
                 <div
                   className={[
                     router.pathname === `/${session.user.email}`
@@ -76,7 +76,7 @@ export default function TopNavBar() {
                 <ul className="list">
                   {allFollowingData.map(({ email }) => (
                     <li className="listItem" key={email}>
-                      <a href={`/${email}`} onClick={closeModal}>
+                      <a href={`/${email}/posts`} onClick={closeModal}>
                         {email}
                       </a>
                     </li>
