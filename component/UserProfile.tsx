@@ -14,6 +14,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const username = router.query.blogId as string;
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const handleFollowButtonClick = () => {
+    setIsFollowing(!isFollowing);
+  };
 
   const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]!;
@@ -86,11 +91,32 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     }
   };
 
+  async function checkIsFollow(
+    sessionEmail: string,
+    username: string
+  ): Promise<boolean> {
+    const res: Response = await fetch(
+      `/api/isfollow?sessionEmail=${sessionEmail}&username=${username}`
+    );
+    const data: boolean = await res.json();
+    return data;
+  }  
+
   useEffect(() => {
     if (username) {
       fetchUserInfo();
     }
   }, [username]);
+
+  useEffect(() => {
+    async function checkFollowingStatus() {
+      if (session && username !== session.user.email) {
+        const isFollow = await checkIsFollow(session.user.email, username);
+        setIsFollowing(isFollow);
+      }
+    }
+    checkFollowingStatus();
+  }, [session, username]);
 
   return (
     <div className={"container"}>
@@ -108,14 +134,31 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             }}
           />
         </div>
-        <div className={"lower_container"}>
-          {session && username === session.user.email && (
-            <button className="edit_button" onClick={handleEditButtonClick}>
-              edit
-            </button>
+        <div className="lower_container">
+          {session && (
+            <>
+              {username === session.user.email ? (
+                <button className="edit_button" onClick={handleEditButtonClick}>
+                  edit
+                </button>
+              ) : (
+                <button
+                  className="follow_button"
+                  onClick={handleFollowButtonClick}
+                  style={{
+                    backgroundColor: isFollowing
+                      ? "var(--dark-green)"
+                      : "transparent",
+                    color: isFollowing ? "white" : "var(--dark-green)",
+                  }}
+                >
+                  {isFollowing ? "following" : "follow"}
+                </button>
+              )}
+            </>
           )}
-          <div className={"user_nickname"}>{username}</div>
-          <div className={"user_info"}>{userInfo}</div>
+          <div className="user_nickname">{username}</div>
+          <div className="user_info">{userInfo}</div>
         </div>
       </div>
 
@@ -185,17 +228,32 @@ const UserProfile: React.FC<UserProfileProps> = () => {
           background-color: white;
           border: 5px solid var(--dark-green);
           box-shadow: 10px 10px var(--dark-green);
+          font-size: 20px;
           display: flex;
           flex-direction: column;
           place-items: center;
         }
         .edit_button {
+          font-size: 20px;
+          border: 2px solid var(--dark-green);
+          color: var(--dark-green);
+          margin: 10px;
+          width: 120px;
+          border-radius: 20px;
+        }
+        .follow_button {
+          font-size: 20px;
+          border: 2px solid var(--dark-green);
+          color: var(--dark-green);
+          margin: 10px;
+          width: 120px;
+          border-radius: 20px;
         }
         .user_nickname {
           margin-top: 15px;
           margin-bottom: 5px;
           color: var(--dark-green);
-          font-size: 25px;
+          font-size: 20px;
           font-weight: 400;
           text-decoration: underline;
           text-decoration-style: dotted;

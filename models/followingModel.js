@@ -10,10 +10,8 @@ const FollowingSchema = new mongoose.Schema({
   followings: [
     {
       email: String,
-      blogName: String,
     },
   ],
 });
 
-
-export default mongoose.models.Following || mongoose.model("Following", FollowingSchema);
+export default mongoose.models.Following ||  mongoose.model("Following", FollowingSchema);
