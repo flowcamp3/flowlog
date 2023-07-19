@@ -77,16 +77,16 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           )}
           <ul className="list">
             {currentPosts.map(({ postId, date, title }) => (
-              <li className="listItem" key={postId}>
-                <Link href={`/${blogId}/${postId}`}>
+              <Link href={`/${blogId}/${postId}`}>
+                <li className="listItem" key={postId}>
                   <div className={"title_text"}>{title}</div>
-                </Link>
-                <br />
-                <br />
-                <small className="date_text">
-                  <Date dateString={date} />
-                </small>
-              </li>
+                  <br />
+                  <br />
+                  <small className="date_text">
+                    <Date dateString={date} />
+                  </small>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
@@ -96,6 +96,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           width: 70%;
           display: flex;
           flex-direction: column;
+          // z-index: -1;
         }
         .title {
           color: var(--light-text);
@@ -144,7 +145,7 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           transition: transform 0.3s ease;
         }
         .post_container {
-          position: relative;
+          position: static;
           width: 100%;
           height: 1000px;
           background-image: url("/assets/sample_header.jpg");
