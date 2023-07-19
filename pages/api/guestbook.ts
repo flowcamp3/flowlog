@@ -49,8 +49,8 @@ export default async function handler(
     }
     // DELETE 요청 처리
     else if (method === "DELETE") {
-      const { id } = req.body;
-      await Guestbook.findByIdAndDelete(id);
+      const { id } = req.query; // Change id to query parameter
+      await Guestbook.findByIdAndDelete(id); // Use findByIdAndDelete to delete by id
       res.status(200).end();
     }
     // 허용되지 않은 HTTP 메서드 처리
