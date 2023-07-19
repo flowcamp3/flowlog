@@ -27,11 +27,11 @@ const GuestBook: React.FC<GuestBookProps> = () => {
     if (content.trim() !== "") {
       try {
         await axios.post("/api/guestbook", {
-          blogId: blogId, // Replace with the actual blogId
+          blogId: blogId,
           visitorId: session?.user.email,
           content: content,
         });
-        setContents([...contents, content]);
+        setContents([...contents, { visitorId: session?.user.email, content }]); // Update contents array with object
         setContent("");
         setShowInput(false);
       } catch (error) {
@@ -44,12 +44,16 @@ const GuestBook: React.FC<GuestBookProps> = () => {
     setShowInput(true);
   };
 
-  const handleDelete = (index: number) => {
-    setContents((prevContents) => {
-      const updatedContents = [...prevContents];
-      updatedContents.splice(index, 1);
-      return updatedContents;
-    });
+  const handleDelete = async (id: string) => {
+    // Update handleDelete to accept id parameter
+    try {
+      await axios.delete(`/api/guestbook?id=${id}`); // Pass id as a query parameter
+      setContents(
+        (prevContents) => prevContents.filter((item) => item._id !== id) // Filter out the item with matching id
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -59,17 +63,11 @@ const GuestBook: React.FC<GuestBookProps> = () => {
   const fetchGuestbookData = async () => {
     try {
       const response = await axios.get("/api/guestbook", {
-        params: { blogId: blogId }, // Replace with the actual blogId
+        params: { blogId: blogId },
       });
       const data = response.data;
-      setContents(
-        data.map((item: any) => ({
-          content: item.content,
-          visitorId: item.visitorId,
-        }))
-      );
+      setContents(data);
 
-      // 맨 마지막 페이지로 설정
       const lastPage = Math.ceil(data.length / itemsPerPage);
       setCurrentPage(lastPage);
     } catch (error) {
@@ -123,9 +121,7 @@ const GuestBook: React.FC<GuestBookProps> = () => {
               key={index}
               writerId={item.visitorId}
               content={item.content}
-              onDelete={() =>
-                handleDelete(index + (currentPage - 1) * itemsPerPage)
-              }
+              onDelete={() => handleDelete(item._id)}
             />
           ))}
           <div className={"input_container"}>

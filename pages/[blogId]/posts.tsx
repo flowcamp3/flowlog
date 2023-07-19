@@ -43,12 +43,8 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
     setCurrentPage(currentPage + 1);
   };
 
-  const goToLastPage = () => {
-    setCurrentPage(totalPages);
-  };
-
   useEffect(() => {
-    goToLastPage();
+    setCurrentPage(1);
   }, []);
 
   const showWriteButton = session?.user.email === blogId;
