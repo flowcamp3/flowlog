@@ -62,8 +62,8 @@ const BlogHeader: React.FC = () => {
             <Image
               src="/assets/walking_char.gif"
               alt="sample header"
-              width={50}
-              height={50}
+              width={200}
+              height={200}
               className="character"
             />
           </div>

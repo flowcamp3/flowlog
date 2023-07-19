@@ -44,8 +44,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
       setIsFollowing(!isFollowing);
     }
   };
-  
-  
 
   const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]!;
@@ -128,7 +126,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     );
     const data: boolean = await res.json();
     return data;
-  }  
+  }
 
   useEffect(() => {
     if (username) {
@@ -160,6 +158,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
               target.onerror = null;
               target.src = "/assets/user_img.png";
             }}
+            style={{ width: "100%" }}
           />
         </div>
         <div className="lower_container">
@@ -194,17 +193,19 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         <EditProfileModal isOpen={isModalOpen} onClose={handleEditButtonClick}>
           <div className="modal_content">
             <div className="image_section">
-              <img
-                src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${
-                  process.env.NEXT_PUBLIC_AWS_REGION
-                }.amazonaws.com/${encodeURIComponent(username)}`}
-                alt="User Image"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.onerror = null;
-                  target.src = "/assets/user_img.png";
-                }}
-              />
+              <div className="edit_img">
+                <img
+                  src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.${
+                    process.env.NEXT_PUBLIC_AWS_REGION
+                  }.amazonaws.com/${encodeURIComponent(username)}`}
+                  alt="User Image"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = "/assets/user_img.png";
+                  }}
+                />
+              </div>
               <input
                 onChange={uploadPhoto}
                 type="file"
@@ -238,8 +239,12 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         }
         .user_img {
           width: 60%;
+          padding-top: 0%;
           border: 5px solid var(--dark-green);
           box-shadow: 10px 10px var(--dark-green);
+        }
+        .user_img img {
+          object-fit: cover;
         }
         .contents {
           padding-top: 100px;
@@ -248,7 +253,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
           flex-direction: column;
           place-items: center;
         }
-
         .lower_container {
           margin-top: 40px;
           width: 70%;
@@ -260,6 +264,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
           display: flex;
           flex-direction: column;
           place-items: center;
+        }
+        .edit_img img {
+          width: 300px;
+          heght: 300px;
+          margin-bottom: 30px;
         }
         .edit_button {
           font-size: 20px;
