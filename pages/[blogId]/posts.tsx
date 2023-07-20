@@ -77,8 +77,8 @@ const Posts: React.FC<PostsProps> = ({ allPostsData }) => {
           )}
           <ul className="list">
             {currentPosts.map(({ postId, date, title }) => (
-              <Link href={`/${blogId}/${postId}`}>
-                <li className="listItem" key={postId}>
+              <Link href={`/${blogId}/${postId}`} key={postId}>
+                <li className="listItem">
                   <div className={"title_text"}>{title}</div>
                   <br />
                   <br />
