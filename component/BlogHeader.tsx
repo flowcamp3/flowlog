@@ -17,10 +17,10 @@ const BlogHeader: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleImageClick = (imageSrc) => {
+  const handleImageClick = (imageSrc: string) => {
     setSelectedImage(imageSrc); // Set the selected image src when an image in the modal is clicked
     closeModal(); // Close the modal after selecting an image
-  };
+  };  
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
