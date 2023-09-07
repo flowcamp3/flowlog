@@ -35,7 +35,9 @@ const WritePost = () => {
       }),
     });
     if (res.status === 200) {
-      window.location.href = "http://localhost:3000/" + blogId + "/posts";
+      // window.location.href = "http://localhost:3000/" + blogId + "/posts";
+      window.location.href = "https://be2d-220-126-157-102.ngrok-free.app/" + blogId + "/posts";
+
     } else {
       alert("작성에 실패했습니다");
     }

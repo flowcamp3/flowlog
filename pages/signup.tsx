@@ -28,7 +28,8 @@ export default function Home() {
       body: JSON.stringify({ email: session.user.email, blogId, blogName }),
     });
     if (res.status === 200) {
-      window.location.href = "http://localhost:3000";
+      window.location.href = "https://be2d-220-126-157-102.ngrok-free.app";
+      // window.location.href = "http://localhost:3000";
     } else {
       alert("Sign up failed");
     }
